@@ -135,6 +135,23 @@ point, a few things would need to change:
   fly with a window function on every query, which is cheap at this scale but
   would be worth caching if it's queried heavily across hundreds of projects.
 
+## Statistical analysis (Part 3)
+
+For each of the five cell populations, responders and non-responders are
+compared on their per-sample relative frequencies using a Mann-Whitney U test
+(two-sided). It's non-parametric, so it doesn't assume the relative
+frequencies are normally distributed, which matters here since they're
+bounded percentages rather than something obviously symmetric. It compares the
+two groups by rank instead of by mean, which is the standard choice for this
+kind of population comparison.
+
+Since five tests run at once, one per population, that needs correcting for
+multiple comparisons. Without it, you'd expect roughly one population in
+twenty to come out "significant" purely by chance even if miraclib had no
+effect at all. `analysis.py` applies a Benjamini-Hochberg FDR correction across
+the five p-values and only calls a population significant if its adjusted
+p-value is below 0.05.
+
 ## A note on Part 3
 
 Part 3 asks for a comparison of responders vs. non-responders using all
