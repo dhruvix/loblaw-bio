@@ -16,8 +16,7 @@ make dashboard  # starts the Streamlit dashboard
 `make dashboard` serves on `http://localhost:8501`. In Codespaces, accept the
 prompt to open the forwarded port, or open it from the "Ports" tab.
 
-**Dashboard link:** `http://localhost:8501` for now (local). A public link will
-be added here once it's hosted.
+**Dashboard link:** `https://dhruva-teiko.streamlit.app/`
 
 Each target only needs the previous one to have run once. Re-running `make setup`
 or `make pipeline` is safe because both just overwrite what's already there.
