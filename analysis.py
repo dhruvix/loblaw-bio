@@ -120,6 +120,7 @@ def responder_significance(conn: sqlite3.Connection) -> list[dict]:
     non-responders. NOTE: pools all of a subject's samples (day 0, 7, 14) as if
     they were independent observations, which is not strictly correct -- see
     `baseline_responder_significance` for the repeated-measures-safe version.
+    I have more about this in my readme.
     """
     return _responder_significance_from_frequencies(melanoma_miraclib_pbmc_frequencies(conn))
 
