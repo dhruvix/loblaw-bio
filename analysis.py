@@ -212,19 +212,20 @@ def baseline_subset_summary(conn: sqlite3.Connection) -> list[dict]:
         rows.extend(dict(row) for row in conn.execute(query))
     return rows
 
-def google_form_query(conn: sqlite3.Connection) -> list[dict]:
-    query = f"""
-        SELECT AVG(cc.count) AS avg_b_cell_count
-        FROM cell_counts cc
-        JOIN samples sm ON sm.sample_id = cc.sample_id
-        JOIN subjects s ON s.subject_id = sm.subject_id
-        WHERE s.condition = 'melanoma'
-        AND s.sex = 'M'
-        AND s.response = 'yes'
-        AND sm.time_from_treatment_start = 0
-        AND cc.population = 'b_cell'
-    """
-    return [dict(row) for row in conn.execute(query)]
+# This is the query I ran to get the answer to the question in the google form.
+# def google_form_query(conn: sqlite3.Connection) -> list[dict]:
+#     query = f"""
+#         SELECT AVG(cc.count) AS avg_b_cell_count
+#         FROM cell_counts cc
+#         JOIN samples sm ON sm.sample_id = cc.sample_id
+#         JOIN subjects s ON s.subject_id = sm.subject_id
+#         WHERE s.condition = 'melanoma'
+#         AND s.sex = 'M'
+#         AND s.response = 'yes'
+#         AND sm.time_from_treatment_start = 0
+#         AND cc.population = 'b_cell'
+#     """
+#     return [dict(row) for row in conn.execute(query)]
 
 
 QUESTIONS = {
@@ -271,10 +272,6 @@ def main() -> None:
             write_csv(rows, out_path)
             print(f"Part {key}: {description} -> wrote {len(rows)} rows to {out_path}")
 
-        google_rows = google_form_query(conn)
-        out_path = OUTPUT_DIR / "google_form_query.csv"
-        write_csv(google_rows, out_path)
-        print(f"Wrote {len(google_rows)} rows to {out_path}")
     finally:
         conn.close()
 
